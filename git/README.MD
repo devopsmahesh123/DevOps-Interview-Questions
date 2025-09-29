@@ -978,3 +978,235 @@ env:
 ```
 
 ---
+
+### **Question 41: How do you rebase a feature branch onto the latest `main` without losing local changes?**
+
+**Answer:**
+1. Fetch latest changes:
+   ```bash
+   git fetch origin
+   ```
+2. Rebase:
+   ```bash
+   git checkout feature-xyz
+   git rebase origin/main
+   ```
+
+**Tips & Best Practices:**
+- Resolve conflicts interactively.
+- Use `git rebase --continue` after fixing.
+
+**Example:**
+```bash
+git status
+git add .
+git rebase --continue
+```
+
+---
+
+### **Question 42: How do you detect and fix a corrupted Git repository?**
+
+**Answer:**
+1. Run integrity check:
+   ```bash
+   git fsck
+   ```
+2. Recover from backup or clone:
+   ```bash
+   git clone --mirror <remote-url>
+   ```
+
+**Tips & Best Practices:**
+- Avoid manual edits in `.git/`.
+- Use `git gc` to clean up.
+
+**Example:**
+```bash
+git gc --prune=now
+```
+
+---
+
+### **Question 43: How do you set up GitHub Actions to auto-merge PRs with passing checks and approvals?**
+
+**Answer:**
+Use `peter-evans/enable-pull-request-automerge`:
+```yaml
+jobs:
+  automerge:
+    steps:
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
+```
+
+**Tips & Best Practices:**
+- Use labels like `auto-merge`.
+- Require status checks and reviews.
+
+**Example:**
+```yaml
+if: github.event.pull_request.labels.*.name contains 'auto-merge'
+```
+
+---
+
+### **Question 44: How do you optimize a large Git repo with thousands of commits and files?**
+
+**Answer:**
+1. Run garbage collection:
+   ```bash
+   git gc --aggressive
+   ```
+2. Prune unreachable objects:
+   ```bash
+   git prune
+   ```
+
+**Tips & Best Practices:**
+- Archive old branches.
+- Use shallow clones for CI.
+
+**Example:**
+```bash
+git clone --depth=1 https://github.com/org/repo.git
+```
+
+---
+
+### **Question 45: How do you enforce 2FA for all contributors in a GitHub organization?**
+
+**Answer:**
+1. Go to Org Settings → Security.
+2. Enable “Require two-factor authentication”.
+
+**Tips & Best Practices:**
+- Audit member access regularly.
+- Use SAML or OIDC for enterprise SSO.
+
+**Example:**
+```text
+GitHub → Organization → Settings → Security → 2FA enforcement
+```
+
+---
+
+### **Question 46: How do you create a GitHub Action that runs only on the first push to a new branch?**
+
+**Answer:**
+Use `if:` condition with `github.event.created`:
+```yaml
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  first-push:
+    if: github.event.created == true
+    steps:
+      - run: echo "First push to branch"
+```
+
+**Tips & Best Practices:**
+- Use `github.event_name` for event filtering.
+- Avoid triggering on rebases.
+
+**Example:**
+```yaml
+run: echo "Branch created: ${{ github.ref }}"
+```
+
+---
+
+### **Question 47: How do you handle GitHub Actions failing due to missing permissions on private repos?**
+
+**Answer:**
+1. Use `GITHUB_TOKEN` with proper scopes.
+2. Set `permissions:` explicitly:
+   ```yaml
+   permissions:
+     contents: read
+     pull-requests: write
+   ```
+
+**Tips & Best Practices:**
+- Avoid default token limitations.
+- Use fine-grained PATs for external access.
+
+**Example:**
+```yaml
+env:
+  TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+```
+
+---
+
+### **Question 48: How do you automate GitHub issue creation from CI failures?**
+
+**Answer:**
+Use `actions/github-script`:
+```yaml
+- uses: actions/github-script@v6
+  with:
+    script: |
+      github.issues.create({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        title: "CI Failure on ${{ github.sha }}",
+        body: "Build failed. Check logs."
+      })
+```
+
+**Tips & Best Practices:**
+- Tag issues with `ci-failure`.
+- Auto-close when fixed.
+
+**Example:**
+```yaml
+labels: ['ci-failure']
+```
+
+---
+
+### **Question 49: How do you use Git worktrees to manage multiple branches efficiently?**
+
+**Answer:**
+1. Create worktree:
+   ```bash
+   git worktree add ../feature-xyz feature-xyz
+   ```
+2. Switch between directories.
+
+**Tips & Best Practices:**
+- Avoid frequent checkout conflicts.
+- Use for parallel feature development.
+
+**Example:**
+```bash
+cd ../feature-xyz
+git status
+```
+
+---
+
+### **Question 50: How do you audit GitHub repo access and contributor activity?**
+
+**Answer:**
+1. Use GitHub Insights:
+   - Contributors → Activity
+2. Use `gh` CLI:
+   ```bash
+   gh api repos/org/repo/collaborators
+   ```
+
+**Tips & Best Practices:**
+- Rotate inactive members.
+- Use audit logs for compliance.
+
+**Example:**
+```bash
+gh api orgs/my-org/audit-log
+```
+
+---
