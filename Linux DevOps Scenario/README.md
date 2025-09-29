@@ -1,4 +1,4 @@
-## 🔧 Linux DevOps Scenario-Based Questions (1–10)
+## 🔧 Linux DevOps Scenario-Based Questions
 
 ---
 
@@ -252,13 +252,6 @@ inotifywait -m /etc | grep passwd
 ```
 
 ---
-Perfect, Mahesh! Here's the next batch of **Linux DevOps Scenario-Based Questions (11–20)** — each crafted to reflect real-world challenges in automation, security, performance, and system management.
-
----
-
-## 🔧 Linux DevOps Scenario-Based Questions (11–20)
-
----
 
 ### **Question 11: How do you find which process is using a specific port (e.g., 8080)?**
 
@@ -501,13 +494,6 @@ systemd-analyze
 ```bash
 * * * * * /path/to/script.sh >> /var/log/myscript.log 2>&1
 ```
-
----
-Awesome, Mahesh! Here's the third batch of **Linux DevOps Scenario-Based Questions (21–30)** — focused on networking, scripting, system hardening, and real-time troubleshooting. These are designed to sharpen your edge in production environments and automation workflows.
-
----
-
-## 🔧 Linux DevOps Scenario-Based Questions (21–30)
 
 ---
 
@@ -755,13 +741,6 @@ sudo systemctl restart ssh
 ```bash
 find /var/log/myapp -type f -mtime +30 -delete
 ```
-
----
-You're on fire, Mahesh! Here's the final batch of **Linux DevOps Scenario-Based Questions (31–40)** — covering advanced scripting, SELinux, containers, and performance tuning. These are the kinds of tasks that separate seasoned DevOps engineers from the rest.
-
----
-
-## 🔧 Linux DevOps Scenario-Based Questions (31–40)
 
 ---
 
