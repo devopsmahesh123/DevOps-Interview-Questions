@@ -1,12 +1,3 @@
-Absolutely, Mahesh! Here's a curated set of **40 real-world, scenario-based Linux questions and answers** tailored for DevOps professionals. These reflect practical challenges you’d face in CI/CD pipelines, system troubleshooting, automation, and performance tuning. Each includes:
-
-- ✅ **Question**
-- 🧠 **Answer** (step-by-step with commands)
-- 🛠️ **Tips & Best Practices**
-- 📜 **Example** (script or command)
-
----
-
 ## 🔧 Linux DevOps Scenario-Based Questions (1–10)
 
 ---
