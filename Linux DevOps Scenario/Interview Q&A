@@ -1,0 +1,263 @@
+Absolutely, Mahesh! Here's a curated set of **40 real-world, scenario-based Linux questions and answers** tailored for DevOps professionals. These reflect practical challenges you’d face in CI/CD pipelines, system troubleshooting, automation, and performance tuning. Each includes:
+
+- ✅ **Question**
+- 🧠 **Answer** (step-by-step with commands)
+- 🛠️ **Tips & Best Practices**
+- 📜 **Example** (script or command)
+
+---
+
+## 🔧 Linux DevOps Scenario-Based Questions (1–10)
+
+---
+
+### **Question 1: How do you troubleshoot high CPU usage on a production Linux server?**
+
+**Answer:**
+1. Identify top CPU-consuming processes:
+   ```bash
+   top
+   ```
+2. Use `pidstat` for per-process CPU breakdown:
+   ```bash
+   pidstat -u 1 5
+   ```
+3. Investigate specific PID:
+   ```bash
+   ps -p <PID> -o %cpu,%mem,cmd
+   ```
+4. Check for runaway processes or loops in logs.
+
+**Tips & Best Practices:**
+- Use `htop` for interactive analysis.
+- Monitor with `sar` or `collectl` for historical data.
+
+**Example:**
+```bash
+top -b -n1 | head -20
+```
+
+---
+
+### **Question 2: How do you find and clean up large files consuming disk space?**
+
+**Answer:**
+1. Check disk usage:
+   ```bash
+   df -h
+   ```
+2. Find large files:
+   ```bash
+   find / -type f -size +500M -exec ls -lh {} \;
+   ```
+3. Clean logs:
+   ```bash
+   truncate -s 0 /var/log/syslog
+   ```
+
+**Tips & Best Practices:**
+- Use `ncdu` for interactive disk usage.
+- Automate cleanup with cron.
+
+**Example:**
+```bash
+du -sh /var/* | sort -hr | head -10
+```
+
+---
+
+### **Question 3: How do you automate user creation with a shell script?**
+
+**Answer:**
+1. Create a script:
+   ```bash
+   #!/bin/bash
+   for user in user1 user2 user3; do
+     useradd -m "$user"
+     echo "$user:password123" | chpasswd
+   done
+   ```
+
+**Tips & Best Practices:**
+- Validate usernames.
+- Use encrypted passwords with `chpasswd`.
+
+**Example:**
+```bash
+chmod +x create_users.sh && ./create_users.sh
+```
+
+---
+
+### **Question 4: How do you monitor memory usage and detect leaks?**
+
+**Answer:**
+1. Use `free -m`:
+   ```bash
+   free -m
+   ```
+2. Check swap usage:
+   ```bash
+   swapon -s
+   ```
+3. Use `smem` or `ps_mem.py` for detailed breakdown.
+
+**Tips & Best Practices:**
+- Monitor with Prometheus + Grafana.
+- Set alerts for swap usage.
+
+**Example:**
+```bash
+ps aux --sort=-%mem | head -10
+```
+
+---
+
+### **Question 5: How do you schedule a backup job using cron?**
+
+**Answer:**
+1. Edit crontab:
+   ```bash
+   crontab -e
+   ```
+2. Add job:
+   ```bash
+   0 2 * * * tar -czf /backup/home.tar.gz /home
+   ```
+
+**Tips & Best Practices:**
+- Use `cron.d` for system-wide jobs.
+- Log output with `>> /var/log/backup.log 2>&1`.
+
+**Example:**
+```bash
+crontab -l
+```
+
+---
+
+### **Question 6: How do you secure SSH access on a Linux server?**
+
+**Answer:**
+1. Disable root login:
+   ```bash
+   sudo nano /etc/ssh/sshd_config
+   PermitRootLogin no
+   ```
+2. Change default port:
+   ```bash
+   Port 2222
+   ```
+3. Restart SSH:
+   ```bash
+   sudo systemctl restart ssh
+   ```
+
+**Tips & Best Practices:**
+- Use key-based authentication.
+- Monitor with `fail2ban`.
+
+**Example:**
+```bash
+ssh -p 2222 user@host
+```
+
+---
+
+### **Question 7: How do you configure log rotation for custom logs?**
+
+**Answer:**
+1. Create config in `/etc/logrotate.d/myapp`:
+   ```bash
+   /var/log/myapp/*.log {
+     daily
+     rotate 7
+     compress
+     missingok
+     notifempty
+   }
+   ```
+
+**Tips & Best Practices:**
+- Test with `logrotate -d`.
+- Use `postrotate` for service reloads.
+
+**Example:**
+```bash
+logrotate -f /etc/logrotate.d/myapp
+```
+
+---
+
+### **Question 8: How do you mount an NFS share on a Linux client?**
+
+**Answer:**
+1. Install NFS client:
+   ```bash
+   sudo apt install nfs-common
+   ```
+2. Mount:
+   ```bash
+   sudo mount -t nfs server:/share /mnt
+   ```
+
+**Tips & Best Practices:**
+- Add to `/etc/fstab` for persistence.
+- Use `autofs` for dynamic mounts.
+
+**Example:**
+```bash
+mount | grep nfs
+```
+
+---
+
+### **Question 9: How do you set up a basic firewall using UFW?**
+
+**Answer:**
+1. Enable UFW:
+   ```bash
+   sudo ufw enable
+   ```
+2. Allow SSH:
+   ```bash
+   sudo ufw allow 22
+   ```
+3. Deny all incoming:
+   ```bash
+   sudo ufw default deny incoming
+   ```
+
+**Tips & Best Practices:**
+- Use `ufw status numbered`.
+- Backup rules before changes.
+
+**Example:**
+```bash
+sudo ufw allow from 192.168.1.0/24
+```
+
+---
+
+### **Question 10: How do you monitor file changes in real-time?**
+
+**Answer:**
+1. Use `inotifywait`:
+   ```bash
+   inotifywait -m /var/log
+   ```
+2. Monitor with auditd:
+   ```bash
+   auditctl -w /etc/passwd -p wa
+   ```
+
+**Tips & Best Practices:**
+- Use `auditd` for compliance.
+- Combine with alerting tools.
+
+**Example:**
+```bash
+inotifywait -m /etc | grep passwd
+```
+
+---
